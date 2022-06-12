@@ -95,3 +95,22 @@ Enter label: awake
 * 笔者环境下，syntiant_loop() 的死循环单轮执行时间约为 1ms 数量级。
 
 *假设你已经熟悉 Arduino IDE 的相关操作：* 选择开发板对应的串口，且开发板为 Arduino SAMD - Arduino MKRZERO。编译这个项目并烧录即可实现所需的功能。*加入上传成功，那么你就假装自己没有看到任何红色的 Warning*
+
+## 附录
+
+### 查询#wink#状态
+
+[官网教程](https://docs.edgeimpulse.com/docs/edge-impulse-cli/cli-installation)
+
+如果希望查询当前 Predictions 的状态，可以使用 edge-impulse-cli 提供的工具。
+
+首先安装 :floppy_disk: node-v16.15.1-x64.msi，注意勾选 附加工具(**Additional Node.js tools** (called **Tools for Native Modules** on newer versions))。
+
+安装完成后重启电脑，在终端中输入 {0} 安装 edge-impulse-cli，并使用其提供的工具查询串口。
+
+```Shell
+npm install -g edge-impulse-cli --force
+edge-impulse-run-impulse
+```
+
+根据提示操作即可。
