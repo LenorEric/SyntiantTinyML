@@ -2,6 +2,7 @@ import pydub
 import silence
 import os
 from pydub.generators import WhiteNoise
+from pydub.utils import make_chunks
 
 target = ""
 output_dir = ".\\result"
@@ -25,7 +26,19 @@ def sound_split(file=target):
     for i, chunk in enumerate(audio_chunks, start=0):
         combined = chunk
         noise = WhiteNoise().to_audio_segment(duration=len(combined), volume=threshold * 1.5)
-        combined = combined.overlay(noise)
+        # combined = combined.overlay(noise)
+        output_file = "{name}_{number}.wav".format(name=os.path.basename(os.path.splitext(file)[0]), number=i)
+        output_file = os.path.join(output_dir, output_file)
+        combined.export(output_file, format="wav")
+
+
+def noise_split(file=target):
+    sound = pydub.AudioSegment.from_wav(file)
+    audio_chunks = make_chunks(sound, 1000)
+    for i, chunk in enumerate(audio_chunks, start=0):
+        combined = chunk
+        noise = WhiteNoise().to_audio_segment(duration=len(combined), volume=threshold * 1.5)
+        # combined = combined.overlay(noise)
         output_file = "{name}_{number}.wav".format(name=os.path.basename(os.path.splitext(file)[0]), number=i)
         output_file = os.path.join(output_dir, output_file)
         combined.export(output_file, format="wav")
@@ -41,3 +54,5 @@ if __name__ == '__main__':
     sound_split(".\\source\\shut.wav")
     print("blink")
     sound_split(".\\source\\blink.wav")
+    print("noise")
+    noise_split(".\\source\\noise.wav")

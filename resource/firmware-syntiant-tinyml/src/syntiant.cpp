@@ -1128,31 +1128,6 @@ void syntiant_loop(void)
         //        awake = 0;
 
         /// Write your code here ...
-        if (light == 0) {
-            digitalWrite(LED_RED, LOW);
-            if (!awake)
-                digitalWrite(LED_BLUE, LOW);
-            digitalWrite(LED_GREEN, LOW);
-        }
-        else if (light == 1) {
-            digitalWrite(LED_RED, LOW);
-            if (!awake)
-                digitalWrite(LED_BLUE, LOW);
-            digitalWrite(LED_GREEN, HIGH);
-        }
-        else if (light == 2) {
-            digitalWrite(LED_RED, LOW);
-            digitalWrite(LED_BLUE, LOW);
-            if (blink_count < 1000) {
-                digitalWrite(LED_GREEN, HIGH);
-            }
-            else {
-                digitalWrite(LED_GREEN, LOW);
-            }
-            blink_count ++;
-            if (blink_count == 2000)
-                blink_count = 0;
-        }
         if (awake){
             awake_count ++;
             if (awake_count == 6000){
@@ -1164,6 +1139,34 @@ void syntiant_loop(void)
             else
                 digitalWrite(LED_BLUE, LOW);
         }
+        else{
+            if (light == 0) {
+                digitalWrite(LED_RED, LOW);
+                if (!awake)
+                    digitalWrite(LED_BLUE, LOW);
+                digitalWrite(LED_GREEN, LOW);
+            }
+            else if (light == 1) {
+                digitalWrite(LED_RED, LOW);
+                if (!awake)
+                    digitalWrite(LED_BLUE, LOW);
+                digitalWrite(LED_GREEN, HIGH);
+            }
+            else if (light == 2) {
+                digitalWrite(LED_RED, LOW);
+                digitalWrite(LED_BLUE, LOW);
+                if (blink_count < 1000) {
+                    digitalWrite(LED_GREEN, HIGH);
+                }
+                else {
+                    digitalWrite(LED_GREEN, LOW);
+                }
+                blink_count ++;
+                if (blink_count == 2000)
+                    blink_count = 0;
+            }
+        }
+
 
         if (timer4TimedOut) {
             timer4TimedOut = 0;

@@ -20,14 +20,15 @@ Lenor
 
 第一步是在左侧的 data acquisition 中删除所有已经有的数据。在顶部栏中有训练集和测试集，两者都需要删光。
 
-第二步是用手机录制自己的训练集。包括四个文件：
+第二步是用手机录制自己的训练集。包括五个文件：
 
 * awake.wav
 * light.wav
 * shut.wav
 * blink.wav
+* noise.wav
 
-分别包含“唤醒词”、“开灯词”、“关灯词”、“闪烁词”各 40 遍。注意，每个词之间需要包含至少 500 ms 的停顿，每个词的声音大小应当类似，在录制的时候每个词尽可能可以采用不同的语音语调，且录制环境应当尽可能安静。
+分别包含“唤醒词”、“开灯词”、“关灯词”、“闪烁词”各 40 遍，每个词长度约为 1 秒，以及测试环境下的噪声（应当约为 40 秒）。注意，每个词之间需要包含至少 500 ms 的停顿，每个词的声音大小应当类似，在录制的时候每个词尽可能可以采用不同的语音语调，且录制环境应当尽可能安静。
 
 *Tips: 四个词之间的差别越大越好，这样可以在较少训练集的情况下提供更高的识别精度。例如 ”开灯“ 、”关灯“ 不是一对好的识别词，而 ”开灯“ 、”熄灭“ 则是一对好的识别词。*
 
@@ -42,7 +43,7 @@ pip install -r requirements.txt
 python .\sound_split.py
 ```
 
-之后打开 ".\\SoundProcess\\result\\"，试听其中的所有音频，对一个音频中包含多个目标词语或者不包含目标词语的音频进行一个的删。如果生成的音频过少或过多，更改 ".\\SoundProcess\\sound_split.py" 中的 line [8] 的 silence_thresh 为一个更合适的值。这个值代表了语音内容对应的 dBFS 期望平均值。
+之后打开 ".\\SoundProcess\\result\\"，试听其中的所有音频，对一个音频中包含多个目标词语或者不包含目标词语的音频进行一个的删。如果生成的音频过少或过多，更改 ".\\SoundProcess\\sound_split.py" 中的 line [9] 的 silence_thresh 为一个更合适的值。这个值代表了语音内容对应的 dBFS 期望平均值。
 
 ```python
 threshold = -18
@@ -64,7 +65,7 @@ Enter label: awake
 
 :arrow_right_hook: @Page20 模型正确率不应当低于 90%，否则检查以上步骤是否出错。
 
-:arrow_right_hook: @Page21 需要勾选 awake 等全部四个选项。
+:arrow_right_hook: @Page21 需要勾选 awake 等全部五个选项。
 
 :arrow_right: @Page22 解压 :floppy_disk: arduino-cli_0.23.0_Windows_64bit.zip 到一个新建的特定的英文路径目录，并将这个目录添加到系统路径（Path）。
 
@@ -81,6 +82,8 @@ Enter label: awake
 大致要做的事情包括：
 
 * 使用在 Edge Impluse 中，Deployment 中选择 Syntiant NDP101 library 下载到的类似 :floppy_disk: syntiant-rc-go-stop-syntiant-ndp101-lib-v48.zip 的文件中的内容替换 src 目录中的内容。
+* 修改 firmware-syntiant-tinyml-model.ino 是其能够识别自定义指令，并修改状态位。
+* 在 ".\\src\\syntiant.cpp" 的 syntiant_loop() 中加入相关函数以处理指令。
 
 **代码一定不要照抄哦，里面包含用户信息的	**
 
